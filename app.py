@@ -83,7 +83,7 @@ st.divider()
 # =========================
 # INPUT UI
 # =========================
-st.subheader("🧾 Patient Input Panel")
+st.subheader("🧾 Patient Clinical Data")
 
 left, right = st.columns(2)
 
@@ -184,7 +184,7 @@ if predict:
     # =========================
     # FEATURE IMPORTANCE (SAFE REPLACEMENT)
     # =========================
-    st.subheader("🧠 Feature Importance (Model Insight)")
+    st.subheader("🧠 Feature Contribution (AI Explainability)")
 
     importances = model.feature_importances_
 
