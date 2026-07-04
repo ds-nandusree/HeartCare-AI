@@ -4,7 +4,6 @@ import pickle
 import sqlite3
 from datetime import datetime
 import plotly.graph_objects as go
-import shap
 import pandas as pd
 from fpdf import FPDF
 
@@ -22,8 +21,6 @@ st.set_page_config(
 # =========================
 with open("model.pkl", "rb") as f:
     model = pickle.load(f)
-
-explainer = shap.TreeExplainer(model)
 
 # =========================
 # DB
@@ -68,7 +65,7 @@ if user != "doctor" or password != "admin123":
 st.sidebar.success("Logged in")
 
 # =========================
-# HEADER (CLEAN DASHBOARD)
+# HEADER
 # =========================
 st.markdown("""
     <h1 style='text-align:center; color:#1f77b4;'>🏥 HeartCare AI System</h1>
@@ -110,14 +107,13 @@ with right:
 predict = st.button("❤️ Predict Risk", use_container_width=True)
 
 # =========================
-# PDF (PROFESSIONAL STYLE)
+# PDF GENERATOR
 # =========================
 def generate_pdf(data, prediction, prob):
 
     pdf = FPDF()
     pdf.add_page()
 
-    # Title
     pdf.set_font("Arial", "B", 16)
     pdf.cell(0, 10, "HeartCare AI Medical Report", ln=True, align="C")
 
@@ -158,9 +154,9 @@ if predict:
         prediction = model.predict(input_data)[0]
         prob = model.predict_proba(input_data)[0][1]
 
-    # -------------------------
-    # GAUGE (PRETTY)
-    # -------------------------
+    # =========================
+    # GAUGE
+    # =========================
     st.subheader("📊 Risk Analysis")
 
     fig = go.Figure(go.Indicator(
@@ -179,38 +175,30 @@ if predict:
 
     st.plotly_chart(fig, use_container_width=True)
 
-    # RESULT CARD
+    # RESULT
     if prediction == 1:
         st.error("🚨 HIGH CARDIAC RISK DETECTED")
     else:
         st.success("✅ LOW RISK - NORMAL CONDITION")
 
     # =========================
-    # SHAP (SAFE)
+    # FEATURE IMPORTANCE (SAFE REPLACEMENT)
     # =========================
-    st.subheader("🧠 Feature Contribution (AI Explainability)")
+    st.subheader("🧠 Feature Importance (Model Insight)")
+
+    importances = model.feature_importances_
 
     feature_names = [
         "age","sex","cp","trestbps","chol","fbs",
         "restecg","thalach","exang","oldpeak","slope","ca","thal"
     ]
 
-    shap_values = explainer.shap_values(input_data)
+    imp_df = pd.DataFrame({
+        "Feature": feature_names,
+        "Importance": importances
+    }).sort_values("Importance", ascending=False)
 
-    shap_vals = shap_values[1] if isinstance(shap_values, list) else shap_values
-    shap_vals = np.array(shap_vals).flatten()
-
-    min_len = min(len(feature_names), len(shap_vals))
-
-    shap_df = pd.DataFrame({
-        "Feature": feature_names[:min_len],
-        "Impact": shap_vals[:min_len]
-    })
-
-    shap_df["AbsImpact"] = np.abs(shap_df["Impact"])
-    shap_df = shap_df.sort_values("AbsImpact", ascending=False)
-
-    st.dataframe(shap_df, use_container_width=True)
+    st.dataframe(imp_df, use_container_width=True)
 
     # =========================
     # SAVE DB
@@ -241,7 +229,7 @@ if predict:
         st.download_button("📄 Download Medical Report", f, file_name="Heart_Report.pdf")
 
 # =========================
-# HISTORY TABLE
+# HISTORY
 # =========================
 st.subheader("🗂 Patient History")
 
