@@ -3,6 +3,5 @@ numpy
 pandas
 scikit-learn
 plotly
-shap
 fpdf
-sqlite3
+joblib
