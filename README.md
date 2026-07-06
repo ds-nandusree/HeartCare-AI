@@ -18,7 +18,7 @@ This project demonstrates the integration of **Machine Learning, Data Visualizat
 - 🗂 Patient history storage using SQLite database
 - 📄 Generates downloadable medical PDF reports
 - 🔐 Simple doctor authentication system
-- 🌐 Fully deployed web application using Streamlit Cloud
+- 🌐 Fully deployed web application using Streamlit cloud
 
 ---
 
