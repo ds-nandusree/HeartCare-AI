@@ -44,7 +44,8 @@ This project demonstrates the integration of **Machine Learning, Data Visualizat
 ---
 
 ## 📊 System Architecture
-User Input → Streamlit UI → ML Model Prediction → Risk Visualization → Database Storage → PDF Report Generation  
+<img width="1536" height="1024" alt="ChatGPT Image Jul 7, 2026, 10_59_04 PM" src="https://github.com/user-attachments/assets/22b855bd-2977-47c9-bd46-d05be0575ec0" />
+  
 
 ---
 ## 📁 Project Structure
