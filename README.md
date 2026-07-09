@@ -1,6 +1,7 @@
 # 🏥 HeartCare AI – AI-Powered Cardiovascular Risk Prediction System
 
-🚀 Live App: https://heartcare-ai-ifwcvhptdlwbxhcyemmutn.streamlit.app/
+🌐 Live Application:
+https://heartcare-ai-ifwcvhptdlwbxhcyemmutn.streamlit.app/
 ---
 
 ## 📌 Overview
